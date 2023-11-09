@@ -12,14 +12,21 @@ export default function page() {
     })
 
     const onLogin = async () =>{
-        const response = await axios.post("/api/user/login", creds);
-
-        if(response.data.success === true)
-        {
-            router.push("/");
+        try{
+            // console.log(creds);
+            const response = await axios.post("/api/user/login", creds);
+            
+            if(response.data.success === true)
+            {
+                router.push("/");
+            }
+            
+            alert(`${response.data.message}`);
         }
-
-        alert(`${response.data}`);
+        catch(error:any)
+        {
+            alert(error);
+        }
     }
 
 

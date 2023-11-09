@@ -15,7 +15,7 @@ export default function page() {
 
     const onSignup = async () =>{
         try{
-            console.log(user);
+            // console.log(user);
             const response = await axios.post("/api/user/signup", user);
             if(response.data.success === true)
             {
