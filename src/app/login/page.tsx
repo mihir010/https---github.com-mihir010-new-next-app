@@ -65,7 +65,7 @@ export default function Login() {
                         onClick={onLogin}>Login</button>
                     </div>
                     <div className="text-grey-dark mt-6">
-                        Don't have an account?
+                        {`Don't have an account?`}
                         <Link className="no-underline border-b border-blue text-blue" href="/signup">
                             Sign up
                         </Link>.
