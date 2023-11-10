@@ -13,9 +13,12 @@ export default function page() {
         password:""
     });
 
+    const [loading, setLoading] = useState<any>(false);
+
     const onSignup = async () =>{
         try{
             // console.log(user);
+            setLoading(true);
             const response = await axios.post("/api/user/signup", user);
             if(response.data.success === true)
             {
@@ -27,7 +30,11 @@ export default function page() {
         {
             console.log("cannot signup" + error);
         }
+
+        setLoading(false);
     }
+
+    
 
     return (
         <div>
@@ -35,6 +42,7 @@ export default function page() {
                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className="bg-white px-6 py-8 rounded shadow-xl text-black w-full">
                         <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+                        <h1>{loading === true ? "Loading..." : ""}</h1>
                         <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"

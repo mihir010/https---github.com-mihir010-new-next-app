@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import jwt from 'jsonwebtoken';
 
 export default function page() {
     const router = useRouter();
@@ -11,14 +12,19 @@ export default function page() {
         password:""
     })
 
+    const [loading, setLoading] = useState<any>(false);
+
     const onLogin = async () =>{
         try{
             // console.log(creds);
+            setLoading(true);
             const response = await axios.post("/api/user/login", creds);
+            // console.log(response);
+            const user = response.data.user;
             
             if(response.data.success === true)
             {
-                router.push("/");
+                router.push(`/profile/${user._id}`);
             }
             
             alert(`${response.data.message}`);
@@ -27,6 +33,7 @@ export default function page() {
         {
             alert(error);
         }
+        setLoading(false);
     }
 
 
@@ -37,6 +44,7 @@ export default function page() {
                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className="bg-white px-6 py-8 rounded shadow-xl text-black w-full">
                         <h1 className="mb-8 text-3xl text-center">Login</h1>
+                        <h1>{loading === true ? "Loading..." : ""}</h1>
                         <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
