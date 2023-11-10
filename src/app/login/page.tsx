@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 
-export default function page() {
+export default function Login() {
     const router = useRouter();
     const [creds, setCreds] = useState<any>({
         username:"",

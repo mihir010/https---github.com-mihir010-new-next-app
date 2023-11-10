@@ -1,31 +1,31 @@
-import { NextResponse, NextRequest } from "next/server";
-import User from "@/models/user";
+import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/db/db";
+import { getDataFromToken } from "@/helper/getDataFromToken";
+import User from '@/models/user';
 
 connect();
 
 export async function GET(request:NextRequest)
 {
-    // console.log(request);
     try{
-        // const reqBody = await request.json();
-        // console.log(reqBody);
-        // const {id} = reqBody;
-        // console.log(id);
-        
-        // const user = await User.findOne({_id:id});
-        
-        // if(user)
-        // {
-        //     console.log(user);
-        //     return NextResponse.json({success:true, message:"user found", user});
-        // }
+        const userId:any = await getDataFromToken(request);
+        const user = await User.findOne({_id:userId});
 
-        // return NextResponse.json({success:false, message:"user not found"});
-
-        
+        return NextResponse.json({success:true, message:"user found", user});
     }
     catch(error:any){
-        return NextResponse.json({success:false, message:error});
+        return NextResponse.json({success:false, message:"error while fetching data from jwt"});
     }
 }
+
+// export async function GET(request:NextRequest)
+// {
+//     try{
+//         const userId:any = await getDataFromToken(request);
+//         const user:any = await User.findOne({_id:userId}).select("-password");
+//         return NextResponse.json({success:true, user, message:"user found"});
+//     }
+//     catch(error:any){
+//         return NextResponse.json({success:false, message:`error fetching user data ${error}`});
+//     }
+// }

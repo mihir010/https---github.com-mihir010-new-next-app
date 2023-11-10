@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 
-export default function page({ params }: any) {
+export default function Profile({ params }: any) {
     const [creds, setCreds] = useState<any>({
         username: "",
         email: ""
@@ -11,42 +11,48 @@ export default function page({ params }: any) {
 
     const router = useRouter();
 
-    // const getUserInfo = async () => {
-    //     const id: any = { id: params.id };
-    //     console.log(id);
+    const getUserDetails = async () => {
+        try {
+            const response = await axios.get("/api/user/profile");
+            const user = response.data.user;
+            setCreds(user);
+            // console.log(user);
+        }
+        catch (error: any) {
+            console.log("error occurred while fetching user data from database");
+        }
+    }
+
+    // const getUserDetails = async () => {
     //     try {
-    //         const response = await axios.get("/api/user/profile");
-    //         console.log(response);
-
-    //         if (response.data.success === true) {
-    //             const user = response.data.user;
-    //             setCreds(user)
-    //             // console.log(user);
-    //         }
-
+    //       const response = await axios.get("/api/user/profile");
+    //       console.log(response.data.user);
+    //       setCreds(response.data.user);
     //     }
-    //     catch (error: any) {
-    //         console.log("error occurred while fetching user profile details");
+    //     catch (error) {
+    //       console.log(`error fetching user data from backend: ${error}`);
     //     }
-    // }
+    //   }
 
-    // useEffect(() => {
-    //     getUserInfo();
-    // }, [])
 
-    const logOut = async () =>{
-        try{
+    useEffect(() => {
+        getUserDetails();
+
+    }, []);
+
+    const logOut = async () => {
+        try {
             const response = await axios.get("/api/user/logout");
             router.push("/login");
         }
-        catch(error:any){
+        catch (error: any) {
             console.log(`error logging out: ${error}`);
         }
     }
 
     return (
-        <div>
-            <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
+        <main className='h-[100vh] flex items-center justify-center'>
+            <div className="bg-white max-w-2xl shadow-2xl overflow-hidden sm:rounded-lg">
                 <div className="px-4 py-5 sm:px-6">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
                         User database
@@ -104,6 +110,6 @@ export default function page({ params }: any) {
                     </dl>
                 </div>
             </div>
-        </div>
+        </main>
     )
 }

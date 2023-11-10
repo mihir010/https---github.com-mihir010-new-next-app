@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export async function connect(){
     try{
-        mongoose.connect("mongodb://0.0.0.0:27017/userDB");
+        mongoose.connect(process.env.MONGO_URI!);
         console.log("db connected");
     }
     catch(error:any)

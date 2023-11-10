@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 
-export default function page() {
+export default function Signup() {
     const router = useRouter();
     const [user, setUser] = useState<any>({
         username:"",
