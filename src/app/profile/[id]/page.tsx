@@ -20,12 +20,12 @@ export default function Profile({ params }: any) {
             const user = response.data.user;
             setCreds(user);
             // console.log(user);
+            setLoading(false);
         }
         catch (error: any) {
             console.log("error occurred while fetching user data from database");
         }
 
-        setLoading(false);
     }
 
     // const getUserDetails = async () => {
