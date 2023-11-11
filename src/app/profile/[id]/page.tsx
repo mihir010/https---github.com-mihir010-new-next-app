@@ -9,10 +9,13 @@ export default function Profile({ params }: any) {
         email: ""
     })
 
+    const [loading, setLoading] = useState<any>(false);
+
     const router = useRouter();
 
     const getUserDetails = async () => {
         try {
+            setLoading(true);
             const response = await axios.get("/api/user/profile");
             const user = response.data.user;
             setCreds(user);
@@ -21,6 +24,8 @@ export default function Profile({ params }: any) {
         catch (error: any) {
             console.log("error occurred while fetching user data from database");
         }
+
+        setLoading(false);
     }
 
     // const getUserDetails = async () => {
@@ -67,9 +72,12 @@ export default function Profile({ params }: any) {
                             <dt className="text-sm font-medium text-gray-500">
                                 username
                             </dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {loading === true ? <dd>Loading...</dd> : <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {creds.username}
-                            </dd>
+                            </dd>}
+                            {/* <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {creds.username}
+                            </dd> */}
                         </div>
                         <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
@@ -83,9 +91,12 @@ export default function Profile({ params }: any) {
                             <dt className="text-sm font-medium text-gray-500">
                                 Email address
                             </dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {loading === true ? <dd>Loading...</dd> : <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {creds.email}
-                            </dd>
+                            </dd>}
+                            {/* <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {creds.email}
+                            </dd> */}
                         </div>
                         <div className="bg-gray-50 px-4 py-5 sm:grid sm:gap-4 sm:px-6">
                             <button className='bg-black text-white' onClick={logOut}>Logout</button>
